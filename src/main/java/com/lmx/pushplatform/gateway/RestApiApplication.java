@@ -19,7 +19,8 @@ public class RestApiApplication {
     public FilterRegistrationBean newAuthFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new AuthFilter());
-        filterRegistrationBean.setUrlPatterns(Lists.newArrayList("/push", "/user", "/group", "/developer", "/im"));
+        filterRegistrationBean.setUrlPatterns(Lists.newArrayList("/push",
+                "/user", "/group", "/developer", "/im"));
         return filterRegistrationBean;
     }
 

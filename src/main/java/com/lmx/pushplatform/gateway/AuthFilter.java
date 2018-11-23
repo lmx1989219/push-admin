@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String appKey = httpServletRequest.getHeader("appKey");
-        String appSecret = httpServletRequest.getHeader("appKey");
+        String appSecret = httpServletRequest.getHeader("appSecret");
         String appName = request.getParameter("appName");
         AppEntity appEntity = appRep.findAppEntityByAppNameAndAppKeyAndAppSecret(
                 appName, appKey, appSecret);

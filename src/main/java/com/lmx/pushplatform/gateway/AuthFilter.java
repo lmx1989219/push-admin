@@ -34,6 +34,7 @@ public class AuthFilter implements Filter {
             try (OutputStream os = response.getOutputStream();) {
                 os.write("{\"code\":\"9990\",\"message\":\"您无权访问，请检查密钥\"}" .getBytes());
                 os.flush();
+                return;
             } catch (Exception e) {
                 throw e;
             }

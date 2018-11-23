@@ -1,4 +1,4 @@
-package com.lmx.pushplatform.gateway;
+package com.lmx.pushplatform.gateway.common;
 
 import com.google.common.collect.Sets;
 import com.lmx.pushplatform.gateway.dao.GroupMemberRep;

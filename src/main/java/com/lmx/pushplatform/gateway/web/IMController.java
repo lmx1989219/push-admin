@@ -2,10 +2,10 @@ package com.lmx.pushplatform.gateway.web;
 
 import com.google.common.collect.Lists;
 import com.lmx.pushplatform.client.ClientDelegate;
-import com.lmx.pushplatform.gateway.CommonService;
 import com.lmx.pushplatform.gateway.api.CommonResp;
 import com.lmx.pushplatform.gateway.api.GroupIMReq;
 import com.lmx.pushplatform.gateway.api.P2pIMReq;
+import com.lmx.pushplatform.gateway.common.CommonService;
 import com.lmx.pushplatform.proto.PushRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

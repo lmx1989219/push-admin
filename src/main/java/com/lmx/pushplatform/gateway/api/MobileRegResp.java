@@ -10,6 +10,7 @@ import lombok.experimental.Builder;
 @Builder
 public class MobileRegResp {
 
+    private long appId;
     private String appName,
             appKey,
             appSecret,

@@ -17,13 +17,14 @@ public class AppEntity implements Serializable {
     @GeneratedValue
     private long id;
     private String appName,appKey,appSecret;
-    private String developer;
+    private String developerId;
+    private int state;
     private Date createTime, updateTime;
     @ManyToOne
-    @JoinColumn(name = "developer", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(name = "developerId", nullable = false, updatable = false, insertable = false)
     private DeveloperEntity developerEntity;
 
     @OneToMany(targetEntity = UserEntity.class, cascade = CascadeType.ALL,
-            mappedBy = "appName")
+            mappedBy = "id")
     private Set<UserEntity> userEntitySet;
 }

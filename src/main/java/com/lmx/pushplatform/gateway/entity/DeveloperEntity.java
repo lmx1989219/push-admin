@@ -16,8 +16,9 @@ public class DeveloperEntity implements Serializable {
     private long id;
     private String developer;
     private String password;
+    private int state;
     private Date createTime, updateTime;
     @OneToMany(targetEntity = AppEntity.class, cascade = CascadeType.ALL,
-            mappedBy = "developer")
+            mappedBy = "id")
     private Set<AppEntity> appEntitySet;
 }

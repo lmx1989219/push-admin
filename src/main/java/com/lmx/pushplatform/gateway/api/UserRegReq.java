@@ -8,5 +8,5 @@ import lombok.Data;
 @Data
 public class UserRegReq {
 
-    private String mobileNo, userName, sex, appName;
+    private String userName, appId;
 }

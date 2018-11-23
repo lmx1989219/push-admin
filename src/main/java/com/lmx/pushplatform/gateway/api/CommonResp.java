@@ -28,4 +28,8 @@ public class CommonResp<T> {
     public static CommonResp defaultSuccess(Object data) {
         return new CommonResp(data);
     }
+
+    public static CommonResp defaultError(String error) {
+        return CommonResp.builder().code("9991").msg(error).build();
+    }
 }

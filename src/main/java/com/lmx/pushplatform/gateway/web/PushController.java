@@ -35,7 +35,7 @@ public class PushController {
      */
     @PostMapping("/push")
     public CommonResp push(@RequestBody PushReq pushReq) {
-        //找到app设备下的所有注册用户
+        //找到app设备下的所有注册用户(或者是设备号)
         AppEntity appEntity = appRep.findByAppName(pushReq.getAppName());
         Set<UserEntity> userEntities = appEntity.getUserEntitySet();
         Set<String> sets = Sets.newHashSet();

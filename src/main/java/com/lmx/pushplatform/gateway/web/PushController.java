@@ -28,13 +28,28 @@ public class PushController {
 
 
     /**
-     * app定向推送
+     * app定向推送，服务端程序调用
      *
      * @param pushReq
      * @return
      */
-    @PostMapping("/push")
+    @PostMapping("/server")
     public CommonResp push(@RequestBody PushReq pushReq) {
+        return execPush(pushReq);
+    }
+
+    /**
+     * app定向推送，管理页面调用
+     *
+     * @param pushReq
+     * @return
+     */
+    @PostMapping("/admin")
+    public CommonResp admin(@RequestBody PushReq pushReq) {
+        return execPush(pushReq);
+    }
+
+    CommonResp execPush(PushReq pushReq) {
         //找到app设备下的所有注册用户(或者是设备号)
         AppEntity appEntity = appRep.findByAppName(pushReq.getAppName());
         Set<UserEntity> userEntities = appEntity.getUserEntitySet();

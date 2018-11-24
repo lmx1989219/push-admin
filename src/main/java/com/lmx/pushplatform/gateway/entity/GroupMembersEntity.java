@@ -1,6 +1,6 @@
 package com.lmx.pushplatform.gateway.entity;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Builder;
 
 import javax.persistence.*;
@@ -13,8 +13,12 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "t_group_member")
-@Data
+@Setter
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"groupEntity"})
 public class GroupMembersEntity implements Serializable {
     @Id
     @GeneratedValue

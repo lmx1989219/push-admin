@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeveloperRep extends JpaRepository<DeveloperEntity, Long> {
 
-
+    DeveloperEntity findByDeveloperAndPassword(String a, String b);
 }

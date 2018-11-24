@@ -45,18 +45,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.example.demo" level="DEBUG" additivity="false">
-        <appender-ref ref="appLog"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-
     <logger name="org.hibernate" level="INFO" additivity="false">
-        <appender-ref ref="appLog"/>
-        <appender-ref ref="sqlLog"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-
-    <logger name="org.mybatis" level="INFO" additivity="false">
         <appender-ref ref="appLog"/>
         <appender-ref ref="sqlLog"/>
         <appender-ref ref="STDOUT"/>

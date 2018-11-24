@@ -32,4 +32,8 @@ public class CommonResp<T> {
     public static CommonResp defaultError(String error) {
         return CommonResp.builder().code("9991").msg(error).build();
     }
+
+    public static CommonResp defaultError(String code,String error) {
+        return CommonResp.builder().code(code).msg(error).build();
+    }
 }

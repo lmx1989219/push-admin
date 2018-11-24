@@ -3,7 +3,6 @@ package com.lmx.pushplatform.gateway;
 import com.lmx.pushplatform.gateway.dao.AppRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -14,8 +13,11 @@ import java.io.OutputStream;
  */
 public class AuthFilter implements Filter {
 
-    @Autowired
     private AppRep appRep;
+
+    public AuthFilter(AppRep appRep) {
+        this.appRep = appRep;
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

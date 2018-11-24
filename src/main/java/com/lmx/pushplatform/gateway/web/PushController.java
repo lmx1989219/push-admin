@@ -10,6 +10,7 @@ import com.lmx.pushplatform.gateway.entity.AppEntity;
 import com.lmx.pushplatform.gateway.entity.UserEntity;
 import com.lmx.pushplatform.proto.PushRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,10 @@ public class PushController {
         for (UserEntity u : userEntities) {
             sets.add(String.valueOf(u.getId()));
         }
+        if (CollectionUtils.isEmpty(sets))
+            return CommonResp.defaultSuccess();
         PushRequest pushRequest = new PushRequest();
+        pushRequest.setMsgType(1);
         pushRequest.setMsgContent(pushReq.getMsgContent());
         pushRequest.setToId(Lists.newArrayList(sets));
         pushRequest.setPlatform(pushReq.getPlatform());

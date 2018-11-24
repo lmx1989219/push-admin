@@ -1,6 +1,6 @@
 package com.lmx.pushplatform.gateway.entity;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Builder;
 
 import javax.persistence.*;
@@ -9,8 +9,12 @@ import java.util.Date;
 
 @Entity
 @Table(name = "t_user_related")
-@Data
+@Setter
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"userEntity"})
 public class UserRelatedEntity implements Serializable {
     @Id
     @GeneratedValue

@@ -1,5 +1,6 @@
 package com.lmx.pushplatform.gateway.web;
 
+import com.lmx.pushplatform.client.Client;
 import com.lmx.pushplatform.client.ClientDelegate;
 import com.lmx.pushplatform.gateway.api.CommonResp;
 import com.lmx.pushplatform.gateway.api.MobileRegReq;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -44,5 +46,23 @@ public class AppController {
                 .appName(appEntity.getAppName())
                 .appSecret(appEntity.getAppSecret())
                 .build());
+    }
+
+    /**
+     * app鉴权
+     *
+     * <p>鉴权通过后随机返回一路有效的连接地址</p>
+     *
+     * @param mobileRegReq
+     * @return
+     */
+    @PostMapping("/auth")
+    public CommonResp auth(@RequestBody MobileRegReq mobileRegReq) {
+        AppEntity appEntity = appRep.findAppEntityByAppNameAndAppKeyAndAppSecret(
+                mobileRegReq.getAppName(), mobileRegReq.getAppKey(), mobileRegReq.getAppSecret());
+        List<Client> clients = clientDelegate.getClients();
+        int val = (int) System.currentTimeMillis() % clients.size();
+        String clientInfo = clients.get(Math.abs(val)).toString();
+        return CommonResp.defaultSuccess(appEntity != null ? clientInfo : "您无权访问，请检查密钥");
     }
 }

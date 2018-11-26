@@ -17,15 +17,15 @@ public class RestApiApplication {
         return new ClientDelegate();
     }
 
-    @Bean
-    public FilterRegistrationBean newAuthFilter(AppRep appRep) {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new AuthFilter(appRep));
-        filterRegistrationBean.setUrlPatterns(Lists.newArrayList("/push/server",
-                "/user/*", "/group/*", "/im/*"));
-        filterRegistrationBean.setOrder(2);
-        return filterRegistrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean newAuthFilter(AppRep appRep) {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(new AuthFilter(appRep));
+//        filterRegistrationBean.setUrlPatterns(Lists.newArrayList("/push/server",
+//                "/user/*", "/group/*", "/im/*"));
+//        filterRegistrationBean.setOrder(2);
+//        return filterRegistrationBean;
+//    }
 
     @Bean
     public FilterRegistrationBean newLoginFilter(DeveloperRep developerRep) {

@@ -52,7 +52,7 @@ public class IMController {
         pushRequest.setPlatform(groupIMReq.getPlatform());
         pushRequest.setFromId(groupIMReq.getFromUserId());
         //推送给当前群组的全部成员
-        pushRequest.setToId(Lists.newArrayList(commonService.getGroupMemebersById(groupIMReq.getGroupId())));
+        pushRequest.setToId(Lists.newArrayList(commonService.getGroupMembersById(groupIMReq.getGroupId())));
         clientDelegate.sendOnly(pushRequest);
         return CommonResp.builder().code("0000").build();
     }

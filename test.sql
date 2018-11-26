@@ -125,3 +125,14 @@ CREATE TABLE `t_user_related` (
 -- ----------------------------
 -- Records of t_user_related
 -- ----------------------------
+DROP TABLE IF EXISTS `t_device`;
+CREATE TABLE `t_device` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `app_id` varchar(255) DEFAULT NULL,
+  `device_id` varchar(255) DEFAULT NULL,
+  `platform` int(11) NOT NULL,
+  `state` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

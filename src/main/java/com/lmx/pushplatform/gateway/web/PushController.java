@@ -7,6 +7,7 @@ import com.lmx.pushplatform.gateway.api.CommonResp;
 import com.lmx.pushplatform.gateway.api.PushReq;
 import com.lmx.pushplatform.gateway.dao.AppRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;
+import com.lmx.pushplatform.gateway.entity.DeviceEntity;
 import com.lmx.pushplatform.gateway.entity.UserEntity;
 import com.lmx.pushplatform.proto.PushRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,34 +29,45 @@ public class PushController {
 
 
     /**
-     * app定向推送，服务端程序调用
+     * app发布IM消息，服务端程序调用
      *
      * @param pushReq
      * @return
      */
     @PostMapping("/server")
     public CommonResp push(@RequestBody PushReq pushReq) {
-        return execPush(pushReq);
+        //找到app设备下的所有注册用户
+        AppEntity appEntity = appRep.findByAppName(pushReq.getAppName());
+        Set<UserEntity> userEntities = appEntity.getUserEntitySet();
+        Set<String> sets = Sets.newHashSet();
+        for (UserEntity u : userEntities) {
+            sets.add(String.valueOf(u.getId()));
+        }
+        if (CollectionUtils.isEmpty(sets))
+            return CommonResp.defaultSuccess();
+        PushRequest pushRequest = new PushRequest();
+        pushRequest.setMsgType(1);
+        pushRequest.setMsgContent(pushReq.getMsgContent());
+        pushRequest.setToId(Lists.newArrayList(sets));
+        pushRequest.setPlatform(pushReq.getPlatform());
+        clientDelegate.sendOnly(pushRequest);
+        return CommonResp.defaultSuccess();
     }
 
     /**
-     * app定向推送，管理页面调用
+     * 后台发布app推送消息，管理页面调用
      *
      * @param pushReq
      * @return
      */
     @PostMapping("/admin")
     public CommonResp admin(@RequestBody PushReq pushReq) {
-        return execPush(pushReq);
-    }
-
-    CommonResp execPush(PushReq pushReq) {
-        //找到app设备下的所有注册用户(或者是设备号)
+        //找到app设备下的所有设备号
         AppEntity appEntity = appRep.findByAppName(pushReq.getAppName());
-        Set<UserEntity> userEntities = appEntity.getUserEntitySet();
+        Set<DeviceEntity> deviceEntities = appEntity.getDeviceEntitySet();
         Set<String> sets = Sets.newHashSet();
-        for (UserEntity u : userEntities) {
-            sets.add(String.valueOf(u.getId()));
+        for (DeviceEntity u : deviceEntities) {
+            sets.add(String.valueOf(u.getDeviceId()));
         }
         if (CollectionUtils.isEmpty(sets))
             return CommonResp.defaultSuccess();

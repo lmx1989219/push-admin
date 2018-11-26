@@ -31,4 +31,8 @@ public class AppEntity implements Serializable {
     @OneToMany(targetEntity = UserEntity.class, cascade = CascadeType.ALL,
             mappedBy = "appEntity")
     private Set<UserEntity> userEntitySet;
+
+    @OneToMany(targetEntity = DeviceEntity.class, cascade = CascadeType.ALL,
+            mappedBy = "appEntity")
+    private Set<DeviceEntity> deviceEntitySet;
 }

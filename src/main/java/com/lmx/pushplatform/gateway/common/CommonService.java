@@ -20,7 +20,7 @@ public class CommonService {
     @Autowired
     private GroupMemberRep groupMemberRep;
 
-    public Set<String> getGroupMemebersById(String groupId) {
+    public Set<String> getGroupMembersById(String groupId) {
         GroupEntity groupEntity = groupRep.getOne(Long.parseLong(groupId));
         Set<GroupMembersEntity> groupMembersEntities = groupEntity.getGroupMembersEntitySet();
         Set<String> sets = Sets.newHashSet();

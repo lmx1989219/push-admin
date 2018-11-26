@@ -8,6 +8,7 @@ import com.lmx.pushplatform.gateway.api.MobileRegResp;
 import com.lmx.pushplatform.gateway.dao.AppRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class AppController {
                 .developerId(mobileRegReq.getDeveloper())
                 .appName(mobileRegReq.getAppName())
                 .appKey(UUID.randomUUID().toString().replaceAll("-", ""))
-                .appSecret(UUID.randomUUID().toString().replaceAll("-", ""))
+                .appSecret(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6).toUpperCase())
                 .build();
         appRep.save(appEntity);
         return CommonResp.defaultSuccess(MobileRegResp.builder()
@@ -60,9 +61,15 @@ public class AppController {
     public CommonResp auth(@RequestBody MobileRegReq mobileRegReq) {
         AppEntity appEntity = appRep.findAppEntityByAppNameAndAppKeyAndAppSecret(
                 mobileRegReq.getAppName(), mobileRegReq.getAppKey(), mobileRegReq.getAppSecret());
+        if (appEntity == null) {
+            return CommonResp.defaultError("9996", "您无权访问，请检查密钥");
+        }
         List<Client> clients = clientDelegate.getClients();
+        if (CollectionUtils.isEmpty(clients)) {
+            return CommonResp.defaultError("9997", "无可用连接");
+        }
         int val = (int) System.currentTimeMillis() % clients.size();
         String clientInfo = clients.get(Math.abs(val)).toString();
-        return CommonResp.defaultSuccess(appEntity != null ? clientInfo : "您无权访问，请检查密钥");
+        return CommonResp.defaultSuccess(clientInfo);
     }
 }

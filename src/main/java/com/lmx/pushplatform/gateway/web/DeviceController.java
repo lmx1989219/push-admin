@@ -42,7 +42,9 @@ public class DeviceController {
 
     /**
      * 解绑设备
-     *
+     * <p>
+     *     卸载app调用
+     * </p>
      * @param deviceRegReq
      * @return
      */

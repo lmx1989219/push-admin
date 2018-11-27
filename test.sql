@@ -136,3 +136,19 @@ CREATE TABLE `t_device` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_message_push`;
+CREATE TABLE `t_message_push` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `app_id` varchar(255) DEFAULT NULL,
+  `app_name` varchar(255) DEFAULT NULL,
+  `message_title` varchar(255) DEFAULT NULL,
+  `message_content` varchar(255) DEFAULT NULL,
+  `message_url` varchar(255) DEFAULT NULL,
+  `platform` int(11) NOT NULL,
+  `push_state` int(11) NOT NULL,
+  `state` int(11) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

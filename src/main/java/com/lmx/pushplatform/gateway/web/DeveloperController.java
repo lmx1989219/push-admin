@@ -1,6 +1,7 @@
 package com.lmx.pushplatform.gateway.web;
 
 import com.lmx.pushplatform.gateway.api.CommonResp;
+import com.lmx.pushplatform.gateway.api.DeveloperLoginResp;
 import com.lmx.pushplatform.gateway.api.DeveloperRegReq;
 import com.lmx.pushplatform.gateway.dao.DeveloperRep;
 import com.lmx.pushplatform.gateway.entity.DeveloperEntity;
@@ -35,7 +36,10 @@ public class DeveloperController {
         if (developerEntity == null)
             return CommonResp.defaultError("9993", "用户名或密码错误");
         else {
-            return CommonResp.defaultSuccess(developerEntity.getId());
+            return CommonResp.defaultSuccess(DeveloperLoginResp.builder()
+                    .id(developerEntity.getId())
+                    .appEntitySet(developerEntity.getAppEntitySet())
+                    .build());
         }
     }
 }

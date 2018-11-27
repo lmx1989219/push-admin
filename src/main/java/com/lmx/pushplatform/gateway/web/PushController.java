@@ -6,8 +6,10 @@ import com.lmx.pushplatform.client.ClientDelegate;
 import com.lmx.pushplatform.gateway.api.CommonResp;
 import com.lmx.pushplatform.gateway.api.PushReq;
 import com.lmx.pushplatform.gateway.dao.AppRep;
+import com.lmx.pushplatform.gateway.dao.MessageRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;
 import com.lmx.pushplatform.gateway.entity.DeviceEntity;
+import com.lmx.pushplatform.gateway.entity.MessageEntity;
 import com.lmx.pushplatform.gateway.entity.UserEntity;
 import com.lmx.pushplatform.proto.PushRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class PushController {
     private ClientDelegate clientDelegate;
     @Autowired
     private AppRep appRep;
+    @Autowired
+    private MessageRep messageRep;
 
 
     /**
@@ -47,7 +51,7 @@ public class PushController {
             return CommonResp.defaultSuccess();
         PushRequest pushRequest = new PushRequest();
         pushRequest.setMsgType(1);
-        pushRequest.setMsgContent(pushReq.getMsgContent());
+        pushRequest.setMsgContent(pushReq.getMessageContent());
         pushRequest.setToId(Lists.newArrayList(sets));
         pushRequest.setPlatform(pushReq.getPlatform());
         clientDelegate.sendOnly(pushRequest);
@@ -73,10 +77,22 @@ public class PushController {
             return CommonResp.defaultSuccess();
         PushRequest pushRequest = new PushRequest();
         pushRequest.setMsgType(1);
-        pushRequest.setMsgContent(pushReq.getMsgContent());
+        pushRequest.setMsgContent(pushReq.getMessageContent());
         pushRequest.setToId(Lists.newArrayList(sets));
         pushRequest.setPlatform(pushReq.getPlatform());
+        messageRep.save(MessageEntity.builder()
+                .appId(String.valueOf(appEntity.getId()))
+                .appName(appEntity.getAppName())
+                .messageTitle(pushReq.getMessageTitle())
+                .messageContent(pushReq.getMessageContent())
+                .platform(pushReq.getPlatform())
+                .build());
         clientDelegate.sendOnly(pushRequest);
         return CommonResp.defaultSuccess();
+    }
+
+    @PostMapping("admin/list")
+    public CommonResp list(@RequestBody PushReq pushReq) {
+        return CommonResp.defaultSuccess(messageRep.findByAppName(pushReq.getAppName()));
     }
 }

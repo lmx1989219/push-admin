@@ -8,10 +8,7 @@ import com.lmx.pushplatform.gateway.entity.DeveloperEntity;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -29,8 +26,14 @@ public class DeveloperController {
                 .developer(developerReq.getUserName())
                 .password(developerReq.getPassword())
                 .build());
-        return CommonResp.defaultSuccess(developerRep.findByDeveloperAndPassword(
-                developerReq.getUserName(), developerReq.getPassword()));
+        DeveloperEntity developerEntity = developerRep.findByDeveloperAndPassword(
+                developerReq.getUserName(), developerReq.getPassword());
+        //注册成功自动登录
+        String tk = UUID.randomUUID().toString().replaceAll("-", "");
+        redisTemplate.opsForValue().set(tk, developerEntity.getId());
+        return CommonResp.defaultSuccess(DeveloperLoginResp.builder()
+                .id(tk)
+                .build());
     }
 
     @PostMapping("/login")
@@ -47,5 +50,13 @@ public class DeveloperController {
                     .appEntitySet(developerEntity.getAppEntitySet())
                     .build());
         }
+    }
+
+
+    @PostMapping("list")
+    public CommonResp list(@RequestHeader String token) {
+        Long id = (Long) redisTemplate.opsForValue().get(token);
+        DeveloperEntity developerEntity = developerRep.findOne(id);
+        return CommonResp.defaultSuccess(developerEntity.getAppEntitySet());
     }
 }

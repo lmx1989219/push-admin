@@ -8,11 +8,9 @@ import com.lmx.pushplatform.gateway.api.MobileRegResp;
 import com.lmx.pushplatform.gateway.dao.AppRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +23,8 @@ public class AppController {
     private AppRep appRep;
     @Autowired
     private ClientDelegate clientDelegate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 注册app
@@ -33,9 +33,9 @@ public class AppController {
      * @return
      */
     @PostMapping("/reg")
-    public CommonResp reg(@RequestBody MobileRegReq mobileRegReq) {
+    public CommonResp reg(@RequestBody MobileRegReq mobileRegReq, @RequestHeader String token) {
         AppEntity appEntity = AppEntity.builder()
-                .developerId(mobileRegReq.getDeveloper())
+                .developerId(String.valueOf(redisTemplate.opsForValue().get(token)))
                 .appName(mobileRegReq.getAppName())
                 .appKey(UUID.randomUUID().toString().replaceAll("-", ""))
                 .appSecret(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6).toUpperCase())

@@ -1,4 +1,4 @@
-package com.lmx.pushplatform.gateway;
+package com.lmx.pushplatform.gateway.filter;
 
 import com.lmx.pushplatform.gateway.dao.AppRep;
 import com.lmx.pushplatform.gateway.entity.AppEntity;

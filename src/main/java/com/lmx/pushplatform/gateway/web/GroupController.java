@@ -64,7 +64,7 @@ public class GroupController {
      */
     @PostMapping("/memberList")
     public CommonResp followList(@RequestBody GroupMemberRegReq groupMemberRegReq) {
-        GroupEntity groupEntity = groupRep.getOne(Long.parseLong(groupMemberRegReq.getGroupId()));
+        GroupEntity groupEntity = groupRep.findOne(Long.parseLong(groupMemberRegReq.getGroupId()));
         Set<GroupMembersEntity> groupMembersEntities = groupEntity.getGroupMembersEntitySet();
         Set<String> sets = Sets.newHashSet();
         for (GroupMembersEntity u : groupMembersEntities) {

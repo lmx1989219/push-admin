@@ -7,17 +7,21 @@ import com.lmx.pushplatform.gateway.dao.DeveloperRep;
 import com.lmx.pushplatform.gateway.entity.DeveloperEntity;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/developer")
 public class DeveloperController {
     @Autowired
     private DeveloperRep developerRep;
-
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/reg")
     public CommonResp reg(@RequestBody DeveloperRegReq developerReq) {
@@ -36,8 +40,10 @@ public class DeveloperController {
         if (developerEntity == null)
             return CommonResp.defaultError("9993", "用户名或密码错误");
         else {
+            String tk = UUID.randomUUID().toString().replaceAll("-", "");
+            redisTemplate.opsForValue().set(tk, developerEntity.getId());
             return CommonResp.defaultSuccess(DeveloperLoginResp.builder()
-                    .id(developerEntity.getId())
+                    .id(tk)
                     .appEntitySet(developerEntity.getAppEntitySet())
                     .build());
         }

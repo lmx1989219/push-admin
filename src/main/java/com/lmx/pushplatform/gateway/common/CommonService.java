@@ -21,7 +21,7 @@ public class CommonService {
     private GroupMemberRep groupMemberRep;
 
     public Set<String> getGroupMembersById(String groupId) {
-        GroupEntity groupEntity = groupRep.getOne(Long.parseLong(groupId));
+        GroupEntity groupEntity = groupRep.findOne(Long.parseLong(groupId));
         Set<GroupMembersEntity> groupMembersEntities = groupEntity.getGroupMembersEntitySet();
         Set<String> sets = Sets.newHashSet();
         for (GroupMembersEntity u : groupMembersEntities) {

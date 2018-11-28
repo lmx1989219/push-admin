@@ -16,7 +16,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"developerEntity", "userEntitySet", "deviceEntitySet"})
+@ToString(exclude = {"developerEntity", "userEntitySet", "deviceEntitySet", "messageEntitySet"})
 public class AppEntity implements Serializable {
     @Id
     @GeneratedValue

@@ -64,7 +64,7 @@ public class UserController {
      */
     @PostMapping("/followList")
     public CommonResp followList(@RequestBody UserFollowRegReq userFollowRegReq) {
-        UserEntity userEntity = userRep.getOne(Long.parseLong(userFollowRegReq.getUserId()));
+        UserEntity userEntity = userRep.findOne(Long.parseLong(userFollowRegReq.getUserId()));
         Set<UserRelatedEntity> userRelatedEntities = userEntity.getUserRelatedEntitySet();
         Set<String> sets = Sets.newHashSet();
         for (UserRelatedEntity u : userRelatedEntities) {

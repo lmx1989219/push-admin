@@ -1,5 +1,6 @@
 package com.lmx.pushplatform.gateway.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Builder;
 
@@ -24,6 +25,7 @@ public class DeveloperEntity implements Serializable {
     private String password;
     private int state;
     private Date createTime, updateTime;
+    @JsonIgnore
     @OneToMany(targetEntity = AppEntity.class, cascade = CascadeType.ALL,
             mappedBy = "developerEntity")
     private Set<AppEntity> appEntitySet;

@@ -10,6 +10,6 @@ import java.util.Set;
 @Builder
 public class DeveloperLoginResp {
 
-    private long id;
+    private String id;
     private Set<AppEntity> appEntitySet;
 }
